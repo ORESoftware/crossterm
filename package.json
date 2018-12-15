@@ -1,11 +1,10 @@
 {
-  "name": "typescript-library-skeleton",
+  "name": "crossterm",
   "version": "0.0.1001",
   "description": "Semver-oriented TypeScript library skeleton.",
   "main": "dist/index.js",
   "bin": {
-    "example": "cli/example.sh",
-    "example.js": "cli/example.js"
+    "crossterm": "cli/crossterm.js"
   },
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
@@ -29,7 +28,9 @@
     "url": "https://github.com/ORESoftware/typescript-library-skeleton/issues"
   },
   "homepage": "https://github.com/ORESoftware/typescript-library-skeleton#readme",
-  "dependencies": {},
+  "dependencies": {
+    "typescript-library-skeleton": "file:../nrestart"
+  },
   "devDependencies": {
     "@types/node": "^10.12.10"
   }

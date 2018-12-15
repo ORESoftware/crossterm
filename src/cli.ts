@@ -13,9 +13,10 @@ if (index < 2) {
 
 const args = process.argv.slice(index + 1);
 
-const json = JSON.stringify(['biz','baz','boon'])
+const json = JSON.stringify(['biz','baz','boon']);
 
-const values = [
+
+const vals = [
   {
     title: 'static-server',
     file: '/home/oleg/codes/typeaware/doc-gen/scripts/static-server.sh',
@@ -36,18 +37,22 @@ const values = [
     file: '/home/oleg/codes/typeaware/doc-gen/scripts/dev-api-app.sh',
     args:  ['foo', 'dude']
   }
-]
-  .map(v => {
+];
+
+const jsonList = vals.map((v,i) => {
+    return `export crossterm_val_${i}='${JSON.stringify(v.args)}'`
+});
+
+const values = vals.map((v,i) => {
     
-    // const args = JSON.stringify(v.args) ;
-    
-    // console.log({args});
-    // // const args = '["xxx"]';
-    //
-    // log.warn(args);
-    
-    const x = ` --tab --title="${v.title}" -e "bash -c 'echo "${v.file}";` +
-    ` add_traps; export ocmdf="${String(v.file || '').trim()}";  declare -a ocmda=( ${v.args.join(' ')} );  ocmd ${v.args.join(' ')}  2> >(r2g_stderr) 1> >(r2g_stdout);'" `;
+    const args = JSON.stringify(v.args) ;
+  
+  
+  const x = ` --tab --title="${v.title}" -e "bash -c 'export crossterm_index="${i}"; echo "${v.file}"; cat "${v.file}";` +
+    ` add_traps; export ocmdf="${String(v.file || '').trim()}";  ocmd  2> >(r2g_stderr) 1> >(r2g_stdout);'" `;
+
+    // const x = ` --tab --title="${v.title}" -e "bash -c 'export crossterm_index="${i}"; echo "${v.file}";` +
+    // ` add_traps; export ocmdf="${String(v.file || '').trim()}";  ocmd ${v.args.join(' ')}  2> >(r2g_stderr) 1> >(r2g_stdout);'" `;
     
     console.log(x);
     return x;
@@ -80,7 +85,9 @@ k.stdin.end(`
   export r2g_green='\\033[1;32m'
   export r2g_no_color='\\033[0m'
   
-  export jjj='${json}'
+  export jjj='${json}';
+  
+  ${jsonList.join(';')}
   
   r2g_stdout() {
     # $REPLY is a bash built-in

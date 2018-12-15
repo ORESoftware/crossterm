@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/ORESoftware/typescript-library-skeleton#readme",
   "dependencies": {
+    "chalk": "^2.4.1",
     "typescript-library-skeleton": "file:../nrestart"
   },
   "devDependencies": {
